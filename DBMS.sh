@@ -1,7 +1,9 @@
 #!/usr/bin/bash
 shopt -s extglob
 export LC_COLLATE=C
+mkdir -p ./Databases
 echo "Welcome To DBMS"
+
 function dataBaseMenu {
 select choice in "press 1 to Create Database" "press 2 to List Databases" "press 3 to Connect To Databases" "press 4 to Drop Database" "press 5 to Exit"
 do
@@ -24,7 +26,7 @@ done
 
 function createDatabase {
 read -p "enter the database name: " name
-if [[ -d ./DBMS/$name ]]; 
+if [[ -d ./Databases/$name ]]; 
 then
     echo "This database already exists, please try another name."
 else
@@ -70,6 +72,8 @@ fi
 
 function dropDatabase {
 read -p "enter the database name to drop: " name
+if [[ -d ./Databases/$name ]]; 
+then
 read -p "Are you sure you want to drop $name:(enter y or n) "
 case $REPLY in
 y) rm -r ./Databases/$name
@@ -85,6 +89,9 @@ n) dataBaseMenu
 *) echo "please enter y or n".
 ;;
 esac
+else
+	echo "Database doesn't exist."
+fi
 read -p "Press Enter to continue"  
 dataBaseMenu
 }

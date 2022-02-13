@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 shopt -s extglob
 export LC_COLLATE=C
-mkdir -p ./Databases
+mkdir -p ./Databases/tables
 echo "Welcome To Table-Part"
 
 function tableMenue {
@@ -84,6 +84,23 @@ function createTable {
     # echo pk:$pk>>$tableName;
     tableMenue
 }    
+
+function insertIntoTable {
+    tables=`ls`;
+    echo "Please Select Table To Insert Into :"
+    select table in $tables;
+    do
+        if [[ -f $table ]]
+        then
+            # printf "\n">>$table;
+            insert $table;
+            break;
+        else
+            echo "Please,select exist table"
+        fi
+        i=$i+1;
+    done
+}
 
 function dropTable {
   echo -e "Enter Table Name: \c"

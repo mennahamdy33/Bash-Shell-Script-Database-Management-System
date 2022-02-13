@@ -24,7 +24,7 @@ done
 
 function createDatabase {
 read -p "enter the database name: " name
-if [[ -d ./DBMS/$name ]]; 
+if [[ -d $name ]]; 
 then
     echo "This database already exists, please try another name."
 else
@@ -49,22 +49,16 @@ dataBaseMenu
 }
 
 function connectToDatabase {
-read -p "enter the database name: " name
-if [[ -d ./Databases/$name ]]; 
-then
-    	cd ./Databases/$name
-	if [ $? == 0 ];
-	then
-		echo "You are now working in database $name."
-		#TableMenu
-	else
- 		echo "Database wasn't selected, please try again."
-	fi
-else
-	echo "Database doesn't exist.here is the names of existed databases, please write the name correctly: "
-  	ls ./Databases
-  	connectToDatabase
-fi
+read -p "Enter the database name: " name  
+cd ./Databases/$name 
+  if [[ $? == 0 ]]; then
+    echo "start using database $name"
+    #tablesMenu
+  else
+    echo "Database $name wasn't found"
+    dataBaseMenu
+  fi
+
 
 }
 

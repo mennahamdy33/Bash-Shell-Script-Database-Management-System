@@ -2,7 +2,7 @@
 shopt -s extglob
 export LC_COLLATE=C
 mkdir -p ./Databases
-echo -e "\e[1m\e[34m\e[40mWelcome To DBMS  \e[49m"
+echo -e "\e[1m\e[34m\e[40mWelcome To DBMS\e[49m"
 
 function dataBaseMenu {
 select choice in  "press 1 to Create Database" "press 2 to List Databases" "press 3 to Connect To Databases" "press 4 to Drop Database" "press 5 to Exit"

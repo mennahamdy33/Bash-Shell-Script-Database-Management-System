@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-shopt -s extglob
-export LC_COLLATE=C
-watch -n 10 cat /var/spool/mail/menna 
-

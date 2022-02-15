@@ -27,7 +27,7 @@ done
 
 function createDatabase {
 read -p "Enter the database name: " name
-if [[ -d ./Databases/$name ]]; 
+if [[ -d ./Databases/$name ]];
 then
     echo -e "\e[31mThis database already exists, please try another name."
 else
@@ -51,13 +51,13 @@ echo -e "\e[95m"
 ls -1 ./Databases
 echo -e "\e[34m"
 
-read -p "Press Enter to continue"  
+read -p "Press Enter to continue"
 dataBaseMenu
 }
 
 function connectToDatabase {
 read -p "Enter the database name: " name
-if [[ -d ./Databases/$name ]]; 
+if [[ -d ./Databases/$name ]];
 then
     	cd ./Databases/$name
 	if [ $? == 0 ];
@@ -77,32 +77,32 @@ fi
 
 function dropDatabase {
 read -p "Enter the database name to drop: " name
-if [[ -d ./Databases/$name ]]; 
+if [[ -d ./Databases/$name ]];
 then
 rm -ir ./Databases/$name
 else
 	echo -e "\e[31mDatabase doesn't exist."
 fi
 echo -e "\e[34m"
-read -p "press Enter to continue"  
+read -p "press Enter to continue"
 dataBaseMenu
 }
 function tableMenu {
-echo -e "\e[40mSelect Menu:  \e[49m"
+echo -e "\e[40mTables Menu:  \e[49m"
     select choice in "press 1 to Create table" "press 2 to list Extisitng Table " "press 3 to insert into table" "press 4 to go to select menu" "press 5 to delete from table " "press 6 to drop table" "press 7 to go back to database menu" "press 8 to exit"
-    do 
-        case $REPLY in 
+    do
+        case $REPLY in
         1)createTable
         	;;
 
-	2)listTables 
+	2)listTables
 		;;
         3)insertIntoTable
                 ;;
-            
+
         4)selectMenu
-                ;;    
-   
+                ;;
+
 	5)deleteFromTable
 		;;
 	6)dropTable
@@ -111,11 +111,11 @@ echo -e "\e[40mSelect Menu:  \e[49m"
 		;;
 	8)echo -e "\e[0m\e[39m"; exit
 		;;
-	
+
 	*) echo $REPLY is not one of the choices.
 		;;
-	esac 
-done 
+	esac
+done
 }
 function createTable {
     echo "Please,Enter Table Name"
@@ -138,17 +138,17 @@ function createTable {
     typeset -i i=0
     columns=""
         echo -e "\e[31mPlease note that the first column to enter will be the primary key\e[34m"
-    while [ $i -lt $colNum ] 
+    while [ $i -lt $colNum ]
     do
         echo "Enter column Name"
         read colName
         echo "Select column type"
         if [ $i -eq 0 ]
-        then                        
+        then
 	pk=$colName
         colName+="(pk)"
         fi
-        
+
         select type in "int" "string"
         do
             colType=$type
@@ -161,13 +161,13 @@ function createTable {
 echo -e "\e[35mTable was created successfully.\e[34m"
     # echo pk:$pk>>$tableName;
     tableMenu
-}    
+}
 
 function listTables {
 echo -e "\e[95m"
 	ls -1
 echo -e "\e[34m"
-	read -p "Press Enter to continue"  
+	read -p "Press Enter to continue"
 	tableMenu
 }
 
@@ -202,7 +202,7 @@ function insertIntoTable {
              insertIntoTable
         fi
         i=$i+1;
-        colName=`cut -d";" -f $i $tableName|cut -d":" -f 1|head -1`; 
+        colName=`cut -d";" -f $i $tableName|cut -d":" -f 1|head -1`;
         colType=`cut -d";" -f $i $tableName|cut -d":" -f 2|head -1`;
     done
     printf "\n">>$tableName
@@ -230,7 +230,7 @@ function checkPk {
     re='^[0-9]+$'
     for value in $pksValues
     do
-        if ! [[ $2 =~ $re ]] ; 
+        if ! [[ $2 =~ $re ]] ;
         then
             # type="string"
             if [ $2 = $value ]
@@ -263,30 +263,30 @@ function deleteFromTable {
        echo -e "\e[35mRow Deleted Successfully\e[34m"
        tableMenu
     fi
-  
+
 }
 function selectMenu {
 echo -e "\e[40mSelect Menu:  \e[49m"
  select choice in  "press 1 to select from table using PK" "press 2 to select All from table" "press 3 to select by column from table" "press 4 to go back to table menu" "press 5 to exit"
-    do 
-        case $REPLY in 
-            
+    do
+        case $REPLY in
+
         1)selectFromTable
                 ;;
         2)selectAll
-                ;; 
+                ;;
         3)selectByColumn
-                ;;    
+                ;;
 
-	4)TableMenu
+	4)tableMenu
 		;;
 	5)echo -e "\e[0m\e[39m"; exit
 		;;
-	
+
 	*) echo $REPLY is not one of the choices.
 		;;
-	esac 
-done 
+	esac
+done
 }
 function selectFromTable {
   echo -e "Enter Table Name: \c"
@@ -300,11 +300,12 @@ function selectFromTable {
       tableMenu
     else
       echo -e "\e[95m"
-      sed  -n 1,`expr $res + 0`p $tName | column -t -s ';' -o '|' 
+      sed  -n "1p;`expr $res + 0`p;" $tName | column -t -s ';' -o '|'
+    #        sed  -n `expr $res + 0`p $tName | column -t -s ';' -o '|'
        echo -e "\e[34m"
        tableMenu
     fi
-  
+
 }
 function selectAll {
   echo -e "Enter Table Name: \c"
@@ -323,10 +324,10 @@ function selectByColumn {
   read tName
   echo -e "Enter Column Name: \c"
    read colName
-   declare -i colNo=`head -1 $tName | tr -s ';' '\n' | nl -nln |  grep $colName | cut -f1` 
-  echo -e "\e[95m" 
+   declare -i colNo=`head -1 $tName | tr -s ';' '\n' | nl -nln |  grep $colName | cut -f1`
+  echo -e "\e[95m"
  awk 'BEGIN{FS=";"}{print $'$colNo'}' $tName
-  echo -e "\e[34m" 
+  echo -e "\e[34m"
  tableMenu
 }
 function dropTable {
@@ -353,13 +354,13 @@ function dropTable {
    	else
  	   echo -e "\e[31mError Dropping Table $tName\e[34m"
         fi
-    
+
     else
 	echo -e "\e[31mTable doesn't exist\e[34m"
     fi
         tableMenu
-   
-  
+
+
 }
 
 

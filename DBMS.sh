@@ -107,7 +107,7 @@ echo -e "\e[40mTables Menu:  \e[49m"
 		;;
 	6)dropTable
 		;;
-	7)BaseMenu
+	7)cd ../../ ; dataBaseMenu
 		;;
 	8)echo -e "\e[0m\e[39m"; exit
 		;;

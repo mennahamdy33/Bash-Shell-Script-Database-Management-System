@@ -68,7 +68,7 @@ then
  		echo -e "\e[31mDatabase wasn't selected, please try again."
 	fi
 else
-	echo "\e[31mDatabase doesn't exist.here is the names of existed databases, please write the name correctly: "
+	echo -e "\e[31mDatabase doesn't exist.here is the names of existed databases, please write the name correctly: "
   	ls ./Databases
   	connectToDatabase
 fi
@@ -230,6 +230,7 @@ function checkPk {
     re='^[0-9]+$'
     for value in $pksValues
     do
+      echo "1."$value
         if ! [[ $2 =~ $re ]] ;
         then
             # type="string"
